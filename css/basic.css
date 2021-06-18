@@ -1,0 +1,35 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+H1,H2,H3,H4,H5,H6{
+	font-weight: normal;
+}
+ul li{
+	list-style-type: none;
+}
+a{
+	text-decoration: none;
+}
+em,i{
+	font-style: normal;
+}
+img{
+	vertical-align: top;
+}
+body{
+	font-family: "微软雅黑";
+}
+.clear:after{
+	content: "";
+	clear: both;
+	display: block;
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
+	font-size: 0;
+}
+/* 清除input文本框点击时出现的黑框 */
+input{
+	outline: none;
+}

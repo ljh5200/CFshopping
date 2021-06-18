@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leon</title>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrap {
+      width: 1349px;
+      height: 800px;
+      background-color: #fff;
+    }
+
+    /* .wrap-left {
+      width: 480px;
+      height: 768px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      background-image: url(../img/01-4.jpg);
+    } */
+
+    .container {
+      width: 1366px;
+      height: 800px;
+      background-color: #fff;
+      float: right;
+      background-position: center;
+      background-size: cover;
+      background-image: url(../img/01-4.jpg);
+    }
+
+    .text-center h1 {
+      margin-left: 300px;
+      margin-bottom: 10px;
+      margin-top: 120px;
+    }
+
+    .text-center h4 {
+      margin-left: 310px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-left: 300px;
+    }
+
+    .form-group input {
+      outline: none;
+      width: 300px;
+      height: 40px;
+      margin-bottom: 3px;
+    }
+
+    .btn {
+      width: 70px;
+      height: 30px;
+      margin-top: 5px;
+    }
+
+    .btn-default {
+      margin-left: 364px;
+    }
+    a{
+      text-decoration: none;
+      color: rgb(33, 221, 228);
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- 左边图 -->
+    <!-- <div class="wrap-left">
+
+    </div> -->
+    <!-- 右边注册 -->
+    <div class="container">
+      <div class="text-center">
+        <h1>欢迎注册QQ</h1>
+        <h4>每一天，乐在沟通。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="">免费靓号</a></span></h4>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="username" placeholder="请输入账号名">
+        &nbsp;&nbsp;<span style="color: red;font-size: 12px;display: none;" id="isName">*用户名不可用</span>
+
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="nickname" placeholder="请输入昵称">
+        &nbsp;&nbsp;<span style="color: red;font-size: 12px;display: none;" id="nick">*昵称不能为空</span>
+
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="tel" placeholder="请输入手机号码">
+        &nbsp;&nbsp;<span style="color: red;font-size: 12px;display: none;" id="tela">*号码不可用</span>
+
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="password1" placeholder="请输入密码">
+        &nbsp;&nbsp;<span style="color: red;font-size: 12px;display: none;" id="pwd">*输入6至10位字母或数字</span>
+
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="password2" placeholder="再次确认密码">
+        &nbsp;&nbsp;<span style="color: red;font-size: 12px;display: none;" id="ispwd">*两次密码不一致</span>
+
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-default">去登录</button>&nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary">注册</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="../js/tool.js"></script>
+<script>
+  var reg = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+  // 获取表单
+  var btns = document.querySelectorAll('.text-center>button');
+  // 1. 点击登录在跳转登录页面
+  btns[0].onclick = function () {
+    window.location.href = "./login.html";
+  }
+  // 获取注册数据
+  var username = $('username');
+  var nickname = $('nickname');
+  var tel = $('tel');
+  // 用户名判断
+  username.oninput = function () {
+    if (!/^\w{4,8}$/.test(this.value)) {
+      // 显示警告
+      $('isName').style.display = "inline";
+    } else {
+      $('isName').style.display = "none";
+      ajax({
+        url: "./register.php",
+        data: { username: this.value },
+        success: function (res) {
+          if (res == "1") {
+            // 用户名已存在
+            $('isName').innerHTML = "用户名已存在";
+            $('isName').style.display = "inline";
+          }
+        }
+      })
+    }
+
+
+
+  }
+  // 电话正则判断
+  tel.oninput = function () {
+    if (!/^\d{11}$/.test(this.value)) {
+      // 显示警告
+      $('tela').style.display = "inline";
+    } else {
+      $('tela').style.display = "none";
+      ajax({
+        url: "./register.php",
+        data: { tel: this.value },
+        success: function (res) {
+          if (res == "1") {
+            // 用户名已存在
+            $('tela').innerHTML = "手机号已被注册";
+            $('tela').style.display = "inline";
+          }
+        }
+      })
+    }
+
+
+
+  }
+  // 点击注册按钮
+
+  btns[1].onclick = function () {
+    // 昵称不能为空
+    if (!nickname.value) {
+      $('nick').style.display = "inline";
+      return "";
+    } else {
+      $('nick').style.display = "none";
+    }
+    // 判断两次密码是否一致
+    if ($('password1').value !== $('password2').value) {
+      // 显示警告
+      $('ispwd').style.display = "inline";
+      return "";
+    }
+    if (!/^\w{6,10}$/.test($('password1').value)) {
+      // 显示警告
+      $('pwd').style.display = "inline";
+      return "";
+    }
+
+    // 发送注册请去
+    ajax({
+      url: './register.php',
+      data: {
+        username: username.value,
+        tel: tel.value,
+        password: $('password1').value,
+        nickname: nickname.value
+      },
+      success: function (res) {
+        if (res == '1') {
+          alert("恭喜注册成功！！");
+          window.location.href = './login.html';
+        } else {
+          alert("注册失败，下次继续")
+        }
+      }
+    })
+  }
+//
+// var num = 0
+//   setInterval(function () {
+//     num++;
+//     if (num % 2 == 0) {
+//       $('.wrap-left').css({
+//         backgroundImage: "url(../img/01-1.jpg)"
+//       })
+//     } else {
+//       $('.wrap-left').css({
+//         backgroundImage: "url(../img/01-3.jpg)"
+//       })
+//     }
+//   }, 2000)
+
+
+
+
+
+</script>
